@@ -3,7 +3,7 @@ const { MongoClient, ObjectId } = require('mongodb');
 const app = express();
 const port = 1155;
 
-const mongoUri = 'mongodb+srv://<username>:<password>@cluster0.koaxd.mongodb.net/?retryWrites=true&w=majority';
+const mongoUri = 'mongodb+srv://{username}:{password}@cluster0.koaxd.mongodb.net/?retryWrites=true&w=majority';
 const dbName = 'movieDatabase';
 const collectionName = 'movies';
 
@@ -24,19 +24,9 @@ app.get('/movies', async (req, res) => {
     const database = client.db(dbName);
     const moviesCollection = database.collection(collectionName);
 
-    // Find all movies, project only the title field, and sort alphabetically
-    const movies = await moviesCollection.find({}, { projection: { title: 1, _id: 0 } })
-      .sort({ title: 1 })
-      .toArray();
+    const movies = await moviesCollection.find().toArray();
 
-    // Extract titles from the result and join with HTML line breaks
-    const responseString = movies.map(movie => movie.title).join('<br>');
-
-    // Set Content-Type header to indicate HTML response
-    res.setHeader('Content-Type', 'text/html');
-    
-    // Send the response
-    res.send(responseString);
+    res.json(movies);
   } catch (error) {
     console.error('Error fetching movies:', error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -61,8 +51,7 @@ app.get('/movies/:title/poster', async (req, res) => {
     const movie = await moviesCollection.findOne({ title: movieTitle });
 
     if (movie && movie.poster_url) {
-      // Redirect to the poster URL
-      res.redirect(movie.poster_url);
+      res.send(`<a href="${movie.poster_url}" target="_blank">${movie.poster_url}</a>`);
     } else {
       res.status(404).json({ error: 'Poster not found' });
     }

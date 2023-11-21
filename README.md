@@ -12,6 +12,7 @@ REQ/RES
 curl http://flip3.engr.oregonstate.edu:1155/movies
 
 (JSON format)
+[
     {
         "_id": 1,
         "title": "The Shawshank Redemption",
@@ -42,6 +43,7 @@ curl http://flip3.engr.oregonstate.edu:1155/movies
         "plot_summary": "In German-occupied Poland during World War II, industrialist Oskar Schindler gradually becomes concerned for his Jewish workforce after witnessing their persecution by the Nazis.",
         "poster_url": "https://m.media-amazon.com/images/M/MV5BNDE4OTMxMTctNmRhYy00NWE2LTg3YzItYTk3M2UwOTU5Njg4XkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg"
     }
+]
 
 
     
